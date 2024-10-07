@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Tint&family=Honk&family=Sixtyfour+Convergence&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Guides:wght@400..700&family=Forum&family=Lobster&display=swap');
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #eed6ac;
+}
+
+h1 {
+    text-align: center;
+    padding: 20px;
+    color: white;
+    font-family: Honk, system-ui;
+}
+h3{
+    text-align: center;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-style: italic;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between sections */
+    margin: 20px;
+}
+
+.form-section {
+    background-color: #C1EDAB;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 95%; /* Adjusts to full width */
+}
+
+h2 {
+    background-color: #5b1e1e;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.buttons {
+    margin-top: 20px;
+    text-align: center;
+}
+
+button {
+    background-color: #260101;
+    color: rgb(253, 206, 206);
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-style: italic;
+}
+
+button:hover {
+    background-color: #8c3b3b;
+}
+
+#mensajeUsuario, #mensajeProducto {
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* Estilos para la sección de tablas */
+.table-section {
+    width: 95%;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos de las tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table, th, td {
+    border-style: 1px inset #3d0000;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+}
+
+th {
+    background-color: #5b1e1e;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-family: "Forum", serif;
+    text-align: center;
+}
+
+
+td {
+    background-color: #f9f9f9;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Estilos de botones dentro de la tabla */
+table button {
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    font-style: italic;
+}
+

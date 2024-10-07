@@ -1,0 +1,228 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');
+
+/*estilo generales*/
+body{
+    font-family: Arial, sans-serif;
+    background-color: #77efb9;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/*.text{
+    text-align: center;
+    color: darkred;
+}*/
+h3{
+    font-size: 20px; /*Modificar ytamaño de letra*/
+    color: #7b0db1; /*para colorear letra*/
+    font-family: 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: center;
+    justify-content:right;
+    }
+
+/* Estilos para el contenedor principal*/
+#app{
+background-color:rgb(244, 190, 190);
+padding: 70px;
+border-radius: 5px;
+box-shadow:0 0 30px rgb(212, 0, 255) ;
+text-align: center;
+font-style: oblique;
+font-family: Georgia, 'Times New Roman', Times, serif;
+}
+#el{
+    background-color:rgb(244, 190, 190);
+    padding: 70px;
+    border-radius: 5px;
+    box-shadow:0 0 30px rgb(212, 0, 255) ;
+    text-align: center;
+    font-style: oblique;
+    font-family: Georgia, 'Times New Roman', Times, serif; 
+}
+#t{
+    background-color:rgb(244, 222, 190);
+    padding: 70px;
+    border-radius: 5px;
+    box-shadow:0 0 30px rgb(255, 5, 21) ;
+    text-align: center;
+    font-style: oblique;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin-left:30px;
+    }
+/* estilo para formulario*/
+form{
+    display: flex;
+    justify-content: space-between; /*alinear horizontalmente y que tenga espacio equitativo*/
+}
+/*estilos al input*/
+input{
+    width:75% ;
+    padding: 8px;
+    margin-bottom: 15px; /*Pa el margen*/
+    border: 1px bisque solid;
+    border-radius: 3px;
+    background-color: rgb(246, 237, 121);
+
+}
+/*estilos para la lista*/
+ul{
+    list-style: armenian;
+    padding: 0;
+}
+/*Estilos para el elemento de la lista */
+li{
+    background-color: rgb(147, 77, 212);
+    border: 3px solid rgb(0, 0, 0);
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+/* estilos para el elemnto completado de la lista*/
+li.completed{
+    text-decoration: line-through;
+    color: rgb(255, 116, 116);
+}
+
+.container{
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.modal{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+
+.modal .fondoModal{
+    position: fixed;
+    width: 97%;
+    height: 100%;
+    top: 0;
+    z-index: 100;
+}
+
+.modal .modal-content{
+    z-index: 1000;
+    position: absolute; 
+    width: 60%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 20px;
+    max-width: 660px;
+}
+
+.modal .modal-content .modal-header{
+    background-color:#cdb4db;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 10px 10px 0px 0px;
+}
+
+.modal .modal-content .modal-header .title-modal{
+    font-size: 30px;
+    padding-top: 10px;
+    text-align: center;
+}
+
+.modal .modal-content .modal-header .btn-close-modal{
+    background: none;
+    border: none;
+    outline: none;
+    padding: 15px;
+    font-size: 20px;
+}
+
+.modal .modal-content .modal-header .btn-close-modal::after{
+    content: "X";
+}
+
+.modal .modal-content .modal-header .btn-close-modal:hover{
+    cursor: pointer;
+}
+
+.modal .modal-content .modal-body{
+    border-radius: 0px 0px 10px 10px;
+    background-color:#bde0fe;
+    padding: 20px;
+    border-top: 1px solid #ccc;
+    margin-bottom: 25px;
+}
+
+@keyframes aparecer{
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+
+@media screen and (max-width: 580px){
+    .modal .modal-content{
+        width: 80%;
+        align-items: center;
+    }
+
+    .modal .modal-content .modal-header .title-modal{
+        font-size: 25px;
+        padding-top: 10px;
+    }
+
+    .modal .modal-content .modal-header .btn-close-modal{
+        padding: 10px;
+        font-size: 18px;
+    }
+} 
+.btn{
+    padding: 10px 20px; 
+    border: none;
+    border-radius: 5px;
+    background:#bee1e6;
+    color: #000000;
+}
+.btn:hover{
+    background: #ffb3c6;
+    cursor:pointer;
+}
+.botones {
+    display: flex;
+    justify-content: center; /* Centra los botones */
+    gap: 10px; /* Espaciado entre los botones */
+}
+/*estilos al boton*/
+button{
+    padding: 10px 20px;
+    background-color: rgb(196, 255, 129);
+    color:black ;
+    border: none;
+    border-radius: 9px;
+    cursor:pointer;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 16px;
+    margin-bottom: 15px; /*Pa el margen*/
+}
+div{
+    display: flex;
+    flex-direction:column; /*organiza los campos de forma vertical.*/
+    align-items: center;/*Alinea los elementos en el centro*/
+    background-color: #f8c9c9; /* Color de fondo del formulario */
+    padding: 20px;
+    border-radius: 10px;
+}

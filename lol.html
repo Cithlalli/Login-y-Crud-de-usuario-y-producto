@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Usuarios y Productos</title>
+    <link rel="stylesheet" type="text/css" href="css/Cuar2.css">
+</head>
+<body>
+<h1>TIENDA "LAS VIUDAS DE GOJO"</h1>
+    <!-- Sección de Usuarios -->
+    <div class="container">
+        <div class="form-section">
+            <h2>Usuarios</h2>
+            <form id="userForm" action="/guardarUsuario" method="post">
+                <input type="hidden" id="id" name="id">
+
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required>
+
+                <label for="a_paterno">Apellido Paterno:</label>
+                <input type="text" id="a_paterno" name="a_paterno" required>
+
+                <label for="a_materno">Apellido Materno:</label>
+                <input type="text" id="a_materno" name="a_materno" required>
+
+                <label for="clave">Clave:</label>
+                <input type="text" id="clave" name="clave" required>
+
+                <label for="telefono">Teléfono:</label>
+                <input type="text" id="telefono" name="telefono" required>
+
+                <label for="correo">Correo:</label>
+                <input type="email" id="correo" name="correo" required>
+
+                <div class="buttons">
+                    <button type="submit" id="guardarUsuario">Guardar</button>
+                    <button type="button" id="eliminarUsuario">Eliminar</button>
+                    <button type="button" id="modificarUsuario" onclick="actualizarUsuario()">Modificar</button>
+                    <button type="reset" id="cancelarUsuario">Cancelar</button>
+                </div>
+            </form>
+            <!-- Tabla de Usuarios -->
+            <div class="table-section">
+                <h3>Lista de Usuarios</h3>
+                <table id="usuariosTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Apellido Paterno</th>
+                            <th>Apellido Materno</th>
+                            <th>Clave</th>
+                            <th>Teléfono</th>
+                            <th>Correo</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="us">
+                        <!-- Las filas de usuarios se agregarán aquí dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <script>
+            // Función para cargar los usuarios desde la base de datos
+            async function cargarUsuarios() {
+                const response = await fetch('/usuarios');
+                const usuarios = await response.json();
+                const tbody = document.querySelector('#usuariosTable tbody');
+                tbody.innerHTML = ''; // Limpiar la tabla
+    
+                usuarios.forEach(usuario => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${usuario.id}</td>
+                        <td>${usuario.nombre}</td>
+                        <td>${usuario.ap_paterno}</td>
+                        <td>${usuario.ap_materno}</td>
+                        <td>${usuario.clave}</td>
+                        <td>${usuario.telefono}</td>
+                        <td>${usuario.correo}</td>
+                        <td>
+                            <button onclick="eliminarUsuario(${usuario.id})">Eliminar</button>
+                            <button onclick="cargarFormulario(${usuario.id}, '${usuario.nombre}', '${usuario.ap_paterno}', '${usuario.ap_materno}', '${usuario.clave}', '${usuario.telefono}', '${usuario.correo}')">Modificar</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+    
+            // Función para eliminar un usuario
+            async function eliminarUsuario(id) {
+                if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
+                    const response = await fetch(`/eliminarUsuario/${id}`, { method: 'DELETE' });
+                    if (response.ok) {
+                        cargarUsuarios(); // Recargar la lista de usuarios
+                    } else {
+                        alert('Error al eliminar el usuario');
+                    }
+                }
+            }
+    
+            // Función para cargar datos en el formulario
+            function cargarFormulario(id, nombre, ap_paterno, ap_materno, clave, telefono, correo) {
+                document.getElementById('id').value = id;
+                document.getElementById('nombre').value = nombre;
+                document.getElementById('a_paterno').value = ap_paterno;
+                document.getElementById('a_materno').value = ap_materno;
+                document.getElementById('clave').value = clave;
+                document.getElementById('telefono').value = telefono;
+                document.getElementById('correo').value = correo;
+            }
+
+            async function actualizarUsuario() {
+                const id = document.getElementById('id').value;
+                const nombre = document.getElementById('nombre').value;
+                const ap_paterno = document.getElementById('a_paterno').value;
+                const ap_materno = document.getElementById('a_materno').value;
+                const clave = document.getElementById('clave').value;
+                const telefono = document.getElementById('telefono').value;
+                const correo = document.getElementById('correo').value;
+                
+                // Verifica si hay un ID para actualizar
+                //console.log(id);
+                if (id) {
+                    const response = await fetch('/editarUsuario', {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            id,
+                            nombre,
+                            a_paterno: ap_paterno,
+                            a_materno: ap_materno,
+                            clave,
+                            telefono,
+                            correo,
+                        }),
+                    });
+            
+                    if (response.ok) {
+                        alert('Usuario actualizado correctamente');
+                        cargarUsuarios(); // Recargar la lista de usuarios
+                        const form = document.getElementById('userForm');
+                        form.reset(); // Limpiar el formulario
+                    } else {
+                        alert('Error al actualizar el usuario');
+                    }
+                } else {
+                    alert('No se ha seleccionado un usuario para modificar');
+                }
+            }
+    
+            // Cargar usuarios al cargar la página
+            window.onload = cargarUsuarios;
+        </script>
+
+        <!-- Sección de Productos -->
+        <div class="form-section">
+            <h2>Productos</h2>
+            <form id="productForm" action="/guardarProducto" method="post">
+                <input type="hidden" id="id_producto" name="id_producto">
+
+                <label for="codigo_barras">Código de Barras:</label>
+                <input type="text" id="codigo_barras" name="codigo_barras" required>
+
+                <label for="nombre_producto">Nombre del Producto:</label>
+                <input type="text" id="nombre_producto" name="nombre_producto" required>
+
+                <label for="cantidad">Cantidad:</label>
+                <input type="text" id="cantidad" name="cantidad" required>
+
+                <label for="proveedores">Proveedores:</label>
+                <input type="text" id="proveedores" name="proveedores" required>
+
+                <label for="especificaciones">Especificaciones:</label>
+                <input type="text" id="especificaciones" name="especificaciones" required>
+
+                <label for="fecha">Fecha de Caducidad:</label>
+                <input type="date" id="fecha" name="fecha" required>
+
+                <label for="costo_compra">Costo de Compra:</label>
+                <input type="text" id="costo_compra" name="costo_compra" required>
+
+                <label for="costo_venta">Costo de Venta:</label>
+                <input type="text" id="costo_venta" name="costo_venta" required>
+
+                <div class="buttons">
+                    <button type="submit" id="guardarProducto">Guardar</button>
+                    <button type="button" id="eliminarProducto">Eliminar</button>
+                    <button type="button" id="modificarProducto" onclick="actualizarProductos()">Modificar</button>
+                    <button type="button" id="cancelarProducto">Cancelar</button>
+                </div>
+            </form>
+            <!-- Tabla de Productos -->
+            <div class="table-section">
+                <h3>Lista de Productos</h3>
+                <table id="productosTable">
+                    <thead>
+                        <tr>
+                            <th>ID Producto</th>
+                            <th>Código de Barras</th>
+                            <th>Nombre del Producto</th>
+                            <th>Cantidad</th>
+                            <th>Proveedores</th>
+                            <th>Especificaciones</th>
+                            <th>Fecha de Caducidad</th>
+                            <th>Costo de Compra</th>
+                            <th>Costo de Venta</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="prod">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función para cargar los usuarios desde la base de datos
+        async function cargarProductos() {
+            const response = await fetch('/productos');
+            const productos = await response.json();
+            const tbody = document.querySelector('#productosTable tbody');
+            tbody.innerHTML = ''; // Limpiar la tabla
+
+            productos.forEach(producto => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${producto.idProducto}</td>
+                    <td>${producto.codigoBarras}</td>
+                    <td>${producto.nombreProducto}</td>
+                    <td>${producto.cantidad}</td>
+                    <td>${producto.proveedores}</td>
+                    <td>${producto.especificaciones}</td>
+                    <td>${producto.fechaCaducidad}</td>
+                    <td>${producto.costoCompra}</td>
+                    <td>${producto.costoVenta}</td>
+                    <td>
+                        <button onclick="eliminarProducto(${producto.idProducto})">Eliminar</button>
+                        <button onclick="cargarFormularioP(${producto.idProducto}, '${producto.codigoBarras}', '${producto.nombreProducto}', '${producto.cantidad}', '${producto.proveedores}', '${producto.especificaciones}', '${producto.fechaCaducidad}', '${producto.costoCompra}', '${producto.costoVenta}')">Modificar</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Función para eliminar un producto
+        async function eliminarProducto(id) {
+            if (confirm('¿Estás seguro de que deseas eliminar este producto?')) {
+                const response = await fetch(`/eliminarProducto/${id}`, { method: 'DELETE' });
+                if (response.ok) {
+                    cargarProductos(); // Recargar la lista de usuarios
+                } else {
+                    alert('Error al eliminar el producto');
+                }
+            }
+        }
+
+        // Función para cargar datos en el formulario
+        function cargarFormularioP(id, codigo, nombre, cantidad, proveedores, especificaciones, fechaCaducidad, costoCompra, costoVenta) {
+            document.getElementById('id_producto').value = id;
+            document.getElementById('codigo_barras').value = codigo;
+            document.getElementById('nombre_producto').value = nombre;
+            document.getElementById('cantidad').value = cantidad;
+            document.getElementById('proveedores').value = proveedores;
+            document.getElementById('especificaciones').value = especificaciones;
+            document.getElementById('fecha').value = fechaCaducidad;
+            document.getElementById('costo_compra').value = costoCompra;
+            document.getElementById('costo_venta').value = costoVenta;
+        }
+
+        async function actualizarProductos() {
+            // Obtener los valores del formulario
+            const id_producto = document.getElementById('id_producto').value;
+            const codigo_barras = document.getElementById('codigo_barras').value;
+            const nombre_producto = document.getElementById('nombre_producto').value;
+            const cantidad = document.getElementById('cantidad').value;
+            const proveedores = document.getElementById('proveedores').value;
+            const especificaciones = document.getElementById('especificaciones').value;
+            const fecha = document.getElementById('fecha').value; // Obtenemos la fecha en formato YYYY-MM-DD
+            const costo_compra = document.getElementById('costo_compra').value;
+            const costo_venta = document.getElementById('costo_venta').value;
+
+            // Verifica si hay un ID para actualizar
+            console.log(id_producto);
+            if (id) {
+                const response = await fetch('/editarProducto', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json' // Especificamos que enviamos JSON
+                    },
+                    body: JSON.stringify({
+                        id_producto,
+                        codigo_barras,
+                        nombre_producto,
+                        cantidad,
+                        proveedores,
+                        especificaciones,
+                        fecha, // Fecha como cadena
+                        costo_compra,
+                        costo_venta,
+                    }), // Convertimos los datos a JSON
+                });
+        
+                if (response.ok) {
+                    alert('Producto actualizado correctamente');
+                    cargarProductos(); // Recargar la lista de usuarios
+                    const form = document.getElementById('productForm');
+                    form.reset(); // Limpiar el formulario
+                } else {
+                    alert('Error al actualizar el producto');
+                }
+            } else {
+                alert('No se ha seleccionado un producto para modificar');
+            }
+        }
+
+        function cargar(){
+            cargarProductos();
+            cargarUsuarios();
+        }
+
+        // Cargar usuarios al cargar la página
+        window.onload = cargar;
+
+
+
+    </script>
+
+<script src="js/validaciones.js"></script>
+</body>
+</html>
